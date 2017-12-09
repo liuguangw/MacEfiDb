@@ -56,7 +56,7 @@ namespace MacEfiDb
                 this.loading.Show();
                 await Task.Run(new Action(() =>
                 {
-                    ZipFile.ExtractToDirectory(this.dataPath + @".zip", basePath);
+                    ZipFile.ExtractToDirectory(this.dataPath + @".zip", this.dataPath);
                 }));
                 this.loading.Hide();
                 this.Show();

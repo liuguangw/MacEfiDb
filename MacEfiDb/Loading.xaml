@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MacEfiDb"
         mc:Ignorable="d"
-        Title="加载中" Height="160" Width="260" WindowStyle="None">
-    <Grid>
-        <Label Name="tip" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF766A6A">zhz</Label>
-    </Grid>
+        Title="加载中" Height="162" Width="275" WindowStyle="None">
+    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image  Height="30" Source="images/tip.jpg"/>
+        <Label Name="tip" FontSize="24" FontWeight="Bold" Foreground="#FF2D2D30">zhz</Label>
+    </WrapPanel>
 </Window>
