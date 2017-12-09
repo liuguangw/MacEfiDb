@@ -4,67 +4,67 @@
     "pc_common": [
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\BOOT",
+        "src": "org_loader\\EFI\\BOOT",
         "dist": "EFI\\BOOT"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\doc",
+        "src": "org_loader\\EFI\\CLOVER\\doc",
         "dist": "EFI\\CLOVER\\doc"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\drivers64",
+        "src": "org_loader\\EFI\\CLOVER\\drivers64",
         "dist": "EFI\\CLOVER\\drivers64"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\drivers64UEFI",
+        "src": "org_loader\\EFI\\CLOVER\\drivers64UEFI",
         "dist": "EFI\\CLOVER\\drivers64UEFI"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\drivers-Off",
+        "src": "org_loader\\EFI\\CLOVER\\drivers-Off",
         "dist": "EFI\\CLOVER\\drivers-Off"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\kexts",
+        "src": "org_loader\\EFI\\CLOVER\\kexts",
         "dist": "EFI\\CLOVER\\kexts"
       },
       {
         "type": 0,
-        "src": "data\\themes",
+        "src": "themes",
         "dist": "EFI\\CLOVER\\themes"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\tools",
+        "src": "org_loader\\EFI\\CLOVER\\tools",
         "dist": "EFI\\CLOVER\\tools"
       },
       {
         "type": 1,
-        "src": "data\\org_loader\\EFI\\CLOVER\\drivers-Off\\drivers64UEFI\\OsxAptioFixDrv-64.efi",
+        "src": "org_loader\\EFI\\CLOVER\\drivers-Off\\drivers64UEFI\\OsxAptioFixDrv-64.efi",
         "dist": "EFI\\CLOVER\\drivers64UEFI\\OsxAptioFixDrv-64.efi"
       },
       {
         "type": 1,
-        "src": "data\\org_loader\\EFI\\CLOVER\\CLOVERX64.efi",
+        "src": "org_loader\\EFI\\CLOVER\\CLOVERX64.efi",
         "dist": "EFI\\CLOVER\\CLOVERX64.efi"
       },
       {
         "type": 1,
-        "src": "data\\3rd_efi\\apfs.efi",
+        "src": "3rd_efi\\apfs.efi",
         "dist": "EFI\\CLOVER\\drivers64UEFI\\apfs.efi"
       },
       {
         "type": 1,
-        "src": "data\\3rd_efi\\HFSPlus.efi",
+        "src": "3rd_efi\\HFSPlus.efi",
         "dist": "EFI\\CLOVER\\drivers64UEFI\\HFSPlus.efi"
       },
       {
         "type": 1,
-        "src": "data\\3rd_efi\\NTFS.efi",
+        "src": "3rd_efi\\NTFS.efi",
         "dist": "EFI\\CLOVER\\drivers64UEFI\\NTFS.efi"
       },
       {
@@ -73,79 +73,79 @@
       },
       {
         "type": 0,
-        "src": "data\\3rd_kext\\Other",
+        "src": "3rd_kext\\Other",
         "dist": "EFI\\CLOVER\\kexts\\Other"
       },
       {
         "type": 0,
-        "src": "data\\3rd_kext\\version",
+        "src": "3rd_kext\\version",
         "dist": "EFI\\CLOVER\\kexts\\10.13"
       }
     ],
     "latop_disbale_gpu": [
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\BOOT",
+        "src": "org_loader\\EFI\\BOOT",
         "dist": "EFI\\BOOT"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\doc",
+        "src": "org_loader\\EFI\\CLOVER\\doc",
         "dist": "EFI\\CLOVER\\doc"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\drivers64",
+        "src": "org_loader\\EFI\\CLOVER\\drivers64",
         "dist": "EFI\\CLOVER\\drivers64"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\drivers64UEFI",
+        "src": "org_loader\\EFI\\CLOVER\\drivers64UEFI",
         "dist": "EFI\\CLOVER\\drivers64UEFI"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\drivers-Off",
+        "src": "org_loader\\EFI\\CLOVER\\drivers-Off",
         "dist": "EFI\\CLOVER\\drivers-Off"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\kexts",
+        "src": "org_loader\\EFI\\CLOVER\\kexts",
         "dist": "EFI\\CLOVER\\kexts"
       },
       {
         "type": 0,
-        "src": "data\\themes",
+        "src": "themes",
         "dist": "EFI\\CLOVER\\themes"
       },
       {
         "type": 0,
-        "src": "data\\org_loader\\EFI\\CLOVER\\tools",
+        "src": "org_loader\\EFI\\CLOVER\\tools",
         "dist": "EFI\\CLOVER\\tools"
       },
       {
         "type": 1,
-        "src": "data\\org_loader\\EFI\\CLOVER\\drivers-Off\\drivers64UEFI\\OsxAptioFixDrv-64.efi",
+        "src": "org_loader\\EFI\\CLOVER\\drivers-Off\\drivers64UEFI\\OsxAptioFixDrv-64.efi",
         "dist": "EFI\\CLOVER\\drivers64UEFI\\OsxAptioFixDrv-64.efi"
       },
       {
         "type": 1,
-        "src": "data\\org_loader\\EFI\\CLOVER\\CLOVERX64.efi",
+        "src": "org_loader\\EFI\\CLOVER\\CLOVERX64.efi",
         "dist": "EFI\\CLOVER\\CLOVERX64.efi"
       },
       {
         "type": 1,
-        "src": "data\\3rd_efi\\apfs.efi",
+        "src": "3rd_efi\\apfs.efi",
         "dist": "EFI\\CLOVER\\drivers64UEFI\\apfs.efi"
       },
       {
         "type": 1,
-        "src": "data\\3rd_efi\\HFSPlus.efi",
+        "src": "3rd_efi\\HFSPlus.efi",
         "dist": "EFI\\CLOVER\\drivers64UEFI\\HFSPlus.efi"
       },
       {
         "type": 1,
-        "src": "data\\3rd_efi\\NTFS.efi",
+        "src": "3rd_efi\\NTFS.efi",
         "dist": "EFI\\CLOVER\\drivers64UEFI\\NTFS.efi"
       },
       {
@@ -154,12 +154,12 @@
       },
       {
         "type": 0,
-        "src": "data\\3rd_kext\\Other",
+        "src": "3rd_kext\\Other",
         "dist": "EFI\\CLOVER\\kexts\\Other"
       },
       {
         "type": 0,
-        "src": "data\\3rd_kext\\version",
+        "src": "3rd_kext\\version",
         "dist": "EFI\\CLOVER\\kexts\\10.13"
       },
       {

@@ -21,6 +21,7 @@ namespace MacEfiDb
         public const int ACTION_COPY_DIR = 0;
         public const int ACTION_COPY_FILE = 1;
         public const int ACTION_DELETE_FILE = 2;
+        public const bool APP_DEBUG = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -29,13 +30,12 @@ namespace MacEfiDb
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.dataPath = System.AppDomain.CurrentDomain.BaseDirectory;
-            bool debug = true;
-            if (debug)
+            if (APP_DEBUG)
             {
                 DirectoryInfo di = new DirectoryInfo(this.dataPath);
                 this.dataPath = di.Parent.Parent.FullName;
             }
-			this.dataPath += "\\data";
+            this.dataPath += "\\data";
             using (StreamReader reader = File.OpenText(this.dataPath + @"\config\common.json"))
             {
                 this.jsonConfig = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -64,8 +64,10 @@ namespace MacEfiDb
         {
             DirectoryInfo srcDirInfo = new DirectoryInfo(srcDir);
             DirectoryInfo distDirInfo = new DirectoryInfo(distDir);
-            if (srcDirInfo.Exists) {
-                if (!distDirInfo.Exists) {
+            if (srcDirInfo.Exists)
+            {
+                if (!distDirInfo.Exists)
+                {
                     distDirInfo.Create();
                 }
                 FileInfo[] files = srcDirInfo.GetFiles();
@@ -73,7 +75,7 @@ namespace MacEfiDb
                 int i;
                 for (i = 0; i < dirs.Length; i++)
                 {
-                    this.copyDir(srcDir+"\\"+ dirs[i].Name,distDir+"\\"+dirs[i].Name);
+                    this.copyDir(srcDir + "\\" + dirs[i].Name, distDir + "\\" + dirs[i].Name);
                 }
                 for (i = 0; i < files.Length; i++)
                 {
@@ -87,13 +89,15 @@ namespace MacEfiDb
 
             FileInfo srcFileInfo = new FileInfo(srcPath);
             FileInfo distFileInfo = new FileInfo(distPath);
-            if (srcFileInfo.Exists) {
+            if (srcFileInfo.Exists)
+            {
                 DirectoryInfo distDirInfo = distFileInfo.Directory;
-                if (!distDirInfo.Exists) {
+                if (!distDirInfo.Exists)
+                {
                     distDirInfo.Create();
                 }
                 //copy
-                srcFileInfo.CopyTo(distFileInfo.FullName,true);
+                srcFileInfo.CopyTo(distFileInfo.FullName, true);
             }
         }
 
@@ -105,14 +109,16 @@ namespace MacEfiDb
                 return;
             }
             //判断EFI目录是否存在
-            DirectoryInfo saveDirInfo = new DirectoryInfo(this.savePath+@"\EFI");
-            if (saveDirInfo.Exists) {
+            DirectoryInfo saveDirInfo = new DirectoryInfo(this.savePath + @"\EFI");
+            if (saveDirInfo.Exists)
+            {
                 MessageBoxResult a = System.Windows.MessageBox.Show("目标目录已存在EFI文件夹,是否删除?", "提示", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 if (a == MessageBoxResult.Yes)
                 {
                     saveDirInfo.Delete(true);
                 }
-                else {
+                else
+                {
                     return;
                 }
             }
@@ -143,10 +149,10 @@ namespace MacEfiDb
                 }
             }
             //copy配置
-            this.copyFile(this.dataPath + @"\config\plist\" + selectedItem.plist+".plist", this.savePath + @"\EFI\CLOVER\config.plist");
+            this.copyFile(this.dataPath + @"\config\plist\" + selectedItem.plist + ".plist", this.savePath + @"\EFI\CLOVER\config.plist");
             saveBtn.Content = "保存配置";
             saveBtn.IsEnabled = true;
-            System.Windows.MessageBox.Show("保存【"+selectedItem.name+"】配置成功","操作成功",MessageBoxButton.OK,MessageBoxImage.Information,MessageBoxResult.OK);
+            System.Windows.MessageBox.Show("保存【" + selectedItem.name + "】配置成功", "操作成功", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
     }
 

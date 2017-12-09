@@ -10,10 +10,10 @@ using System.Windows;
 [assembly: AssemblyTitle("MacEfiDb")]
 [assembly: AssemblyDescription("流光的黑苹果配置生成工具")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MacEfiDb")]
+[assembly: AssemblyCompany("流光")]
+[assembly: AssemblyProduct("流光的黑苹果配置生成工具")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("流光")]
 [assembly: AssemblyCulture("")]
 
 // 将 ComVisible 设置为 false 会使此程序集中的类型
