@@ -1,6 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
+using System.IO.Compression;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -11,6 +15,8 @@ namespace MacEfiDb
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Loading loading;
+        //
         private string dataPath;
         private string savePath = null;
         //json配置
@@ -27,15 +33,34 @@ namespace MacEfiDb
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.dataPath = System.AppDomain.CurrentDomain.BaseDirectory;
+            //loading tip
+            this.loading = new Loading();
+            this.loading.Owner = this;
+            this.loading.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            //
+            string basePath = System.AppDomain.CurrentDomain.BaseDirectory;
             if (APP_DEBUG)
             {
-                DirectoryInfo di = new DirectoryInfo(this.dataPath);
-                this.dataPath = di.Parent.Parent.FullName;
+                DirectoryInfo di = new DirectoryInfo(basePath);
+                basePath = di.Parent.Parent.FullName;
             }
-            this.dataPath += "\\data";
+            this.dataPath = basePath + @"\data";
+            //判断data目录是否存在
+            DirectoryInfo dataPathInfo = new DirectoryInfo(this.dataPath);
+            if (!dataPathInfo.Exists)
+            {
+                this.Hide();
+                this.loading.tip.Content = "正在解压文件";
+                this.loading.Show();
+                await Task.Run(new Action(() =>
+                {
+                    ZipFile.ExtractToDirectory(this.dataPath + @".zip", basePath);
+                }));
+                this.loading.Hide();
+                this.Show();
+            }
             using (StreamReader reader = File.OpenText(this.dataPath + @"\config\common.json"))
             {
                 this.jsonConfig = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
@@ -101,7 +126,7 @@ namespace MacEfiDb
             }
         }
 
-        private void saveConfig(object sender, RoutedEventArgs e)
+        private async void saveConfig(object sender, RoutedEventArgs e)
         {
             if (this.savePath == null)
             {
@@ -122,36 +147,40 @@ namespace MacEfiDb
                     return;
                 }
             }
-            saveBtn.Content = "正在保存...";
-            saveBtn.IsEnabled = false;
+            this.IsEnabled = false;
+            this.loading.tip.Content = "正在保存,请稍后";
+            this.loading.Show();
             ConfigItem selectedItem = configSelector.SelectedItem as ConfigItem;
             int i, targetType;
             //copy文件
             JArray fileList = optionFiles[selectedItem.file] as JArray;
-            for (i = 0; i < fileList.Count; i++)
+            await Task.Run(new Action(() =>
             {
-                targetType = (int)fileList[i]["type"];
-                switch (targetType)
+                for (i = 0; i < fileList.Count; i++)
                 {
-                    case ACTION_COPY_DIR:
-                        this.copyDir(this.dataPath + "\\" + (string)fileList[i]["src"], this.savePath + "\\" + (string)fileList[i]["dist"]);
-                        break;
-                    case ACTION_COPY_FILE:
-                        this.copyFile(this.dataPath + "\\" + (string)fileList[i]["src"], this.savePath + "\\" + (string)fileList[i]["dist"]);
-                        break;
-                    case ACTION_DELETE_FILE:
-                        FileInfo tmpFile = new FileInfo(this.savePath + "\\" + (string)fileList[i]["path"]);
-                        if (tmpFile.Exists)
-                        {
-                            tmpFile.Delete();
-                        }
-                        break;
+                    targetType = (int)fileList[i]["type"];
+                    switch (targetType)
+                    {
+                        case ACTION_COPY_DIR:
+                            this.copyDir(this.dataPath + "\\" + (string)fileList[i]["src"], this.savePath + "\\" + (string)fileList[i]["dist"]);
+                            break;
+                        case ACTION_COPY_FILE:
+                            this.copyFile(this.dataPath + "\\" + (string)fileList[i]["src"], this.savePath + "\\" + (string)fileList[i]["dist"]);
+                            break;
+                        case ACTION_DELETE_FILE:
+                            FileInfo tmpFile = new FileInfo(this.savePath + "\\" + (string)fileList[i]["path"]);
+                            if (tmpFile.Exists)
+                            {
+                                tmpFile.Delete();
+                            }
+                            break;
+                    }
                 }
-            }
-            //copy配置
-            this.copyFile(this.dataPath + @"\config\plist\" + selectedItem.plist + ".plist", this.savePath + @"\EFI\CLOVER\config.plist");
-            saveBtn.Content = "保存配置";
-            saveBtn.IsEnabled = true;
+                //copy配置
+                this.copyFile(this.dataPath + @"\config\plist\" + selectedItem.plist + ".plist", this.savePath + @"\EFI\CLOVER\config.plist");
+            }));
+            this.IsEnabled = true;
+            this.loading.Hide();
             System.Windows.MessageBox.Show("保存【" + selectedItem.name + "】配置成功", "操作成功", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
     }
