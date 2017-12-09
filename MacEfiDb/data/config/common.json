@@ -1,0 +1,264 @@
+{
+  /*文件配置列表*/
+  "option_files": {
+    "pc_common": [
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\BOOT",
+        "dist": "EFI\\BOOT"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\doc",
+        "dist": "EFI\\CLOVER\\doc"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\drivers64",
+        "dist": "EFI\\CLOVER\\drivers64"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\drivers64UEFI",
+        "dist": "EFI\\CLOVER\\drivers64UEFI"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\drivers-Off",
+        "dist": "EFI\\CLOVER\\drivers-Off"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\kexts",
+        "dist": "EFI\\CLOVER\\kexts"
+      },
+      {
+        "type": 0,
+        "src": "data\\themes",
+        "dist": "EFI\\CLOVER\\themes"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\tools",
+        "dist": "EFI\\CLOVER\\tools"
+      },
+      {
+        "type": 1,
+        "src": "data\\org_loader\\EFI\\CLOVER\\drivers-Off\\drivers64UEFI\\OsxAptioFixDrv-64.efi",
+        "dist": "EFI\\CLOVER\\drivers64UEFI\\OsxAptioFixDrv-64.efi"
+      },
+      {
+        "type": 1,
+        "src": "data\\org_loader\\EFI\\CLOVER\\CLOVERX64.efi",
+        "dist": "EFI\\CLOVER\\CLOVERX64.efi"
+      },
+      {
+        "type": 1,
+        "src": "data\\3rd_efi\\apfs.efi",
+        "dist": "EFI\\CLOVER\\drivers64UEFI\\apfs.efi"
+      },
+      {
+        "type": 1,
+        "src": "data\\3rd_efi\\HFSPlus.efi",
+        "dist": "EFI\\CLOVER\\drivers64UEFI\\HFSPlus.efi"
+      },
+      {
+        "type": 1,
+        "src": "data\\3rd_efi\\NTFS.efi",
+        "dist": "EFI\\CLOVER\\drivers64UEFI\\NTFS.efi"
+      },
+      {
+        "type": 2,
+        "path": "EFI\\CLOVER\\drivers64UEFI\\VBoxHfs-64.efi"
+      },
+      {
+        "type": 0,
+        "src": "data\\3rd_kext\\Other",
+        "dist": "EFI\\CLOVER\\kexts\\Other"
+      },
+      {
+        "type": 0,
+        "src": "data\\3rd_kext\\version",
+        "dist": "EFI\\CLOVER\\kexts\\10.13"
+      }
+    ],
+    "latop_disbale_gpu": [
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\BOOT",
+        "dist": "EFI\\BOOT"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\doc",
+        "dist": "EFI\\CLOVER\\doc"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\drivers64",
+        "dist": "EFI\\CLOVER\\drivers64"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\drivers64UEFI",
+        "dist": "EFI\\CLOVER\\drivers64UEFI"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\drivers-Off",
+        "dist": "EFI\\CLOVER\\drivers-Off"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\kexts",
+        "dist": "EFI\\CLOVER\\kexts"
+      },
+      {
+        "type": 0,
+        "src": "data\\themes",
+        "dist": "EFI\\CLOVER\\themes"
+      },
+      {
+        "type": 0,
+        "src": "data\\org_loader\\EFI\\CLOVER\\tools",
+        "dist": "EFI\\CLOVER\\tools"
+      },
+      {
+        "type": 1,
+        "src": "data\\org_loader\\EFI\\CLOVER\\drivers-Off\\drivers64UEFI\\OsxAptioFixDrv-64.efi",
+        "dist": "EFI\\CLOVER\\drivers64UEFI\\OsxAptioFixDrv-64.efi"
+      },
+      {
+        "type": 1,
+        "src": "data\\org_loader\\EFI\\CLOVER\\CLOVERX64.efi",
+        "dist": "EFI\\CLOVER\\CLOVERX64.efi"
+      },
+      {
+        "type": 1,
+        "src": "data\\3rd_efi\\apfs.efi",
+        "dist": "EFI\\CLOVER\\drivers64UEFI\\apfs.efi"
+      },
+      {
+        "type": 1,
+        "src": "data\\3rd_efi\\HFSPlus.efi",
+        "dist": "EFI\\CLOVER\\drivers64UEFI\\HFSPlus.efi"
+      },
+      {
+        "type": 1,
+        "src": "data\\3rd_efi\\NTFS.efi",
+        "dist": "EFI\\CLOVER\\drivers64UEFI\\NTFS.efi"
+      },
+      {
+        "type": 2,
+        "path": "EFI\\CLOVER\\drivers64UEFI\\VBoxHfs-64.efi"
+      },
+      {
+        "type": 0,
+        "src": "data\\3rd_kext\\Other",
+        "dist": "EFI\\CLOVER\\kexts\\Other"
+      },
+      {
+        "type": 0,
+        "src": "data\\3rd_kext\\version",
+        "dist": "EFI\\CLOVER\\kexts\\10.13"
+      },
+      {
+        "type": 1,
+        "src": "patched\\SSDT-Disable_DGPU.aml",
+        "dist": "EFI\\CLOVER\\ACPI\\patched\\SSDT-Disable_DGPU.aml"
+      }
+    ]
+  },
+  "option_list": [
+    {
+      "name": "[笔记本]Acer E5-572G-536W",
+      "file": "latop_disbale_gpu",
+      "plist": "config_mylaptop"
+    },
+    {
+      "name": "[台式]i5-7500 GTX 1060",
+      "file": "pc_common",
+      "plist": "config"
+    },
+    {
+      "name": "HD510",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD510"
+    },
+    {
+      "name": "HD520、530、540",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD510"
+    },
+    {
+      "name": "HD550、P530",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD550_P530"
+    },
+    {
+      "name": "HD615、620、630、640、650",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD615_620_630_640_650"
+    },
+    {
+      "name": "HD3000(1366x768)",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD3000_1366x768"
+    },
+    {
+      "name": "HD3000(1366x768 7代)",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD3000_1366x768_7series"
+    },
+    {
+      "name": "HD3000(1600x900)",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD3000_1600x900"
+    },
+    {
+      "name": "HD3000(1600x900 7代)",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD3000_1600x900_7series"
+    },
+    {
+      "name": "HD4000(1366x768)",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD4000_1366x768"
+    },
+    {
+      "name": "HD4000(1366x768 6代)",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD4000_1366x768_6series"
+    },
+    {
+      "name": "HD4000(1600x900)",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD4000_1600x900"
+    },
+    {
+      "name": "HD4000(1600x900 6代)",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD4000_1600x900_6series"
+    },
+    {
+      "name": "HD4600、4400、4200",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD4600_4400_4200"
+    },
+    {
+      "name": "HD5000、5100、5200",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD5000_5100_5200"
+    },
+    {
+      "name": "HD5300、5500、6000",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD5300_5500_6000"
+    },
+    {
+      "name": "HD5600",
+      "file": "latop_disbale_gpu",
+      "plist": "config_HD5600"
+    }
+  ]
+}
