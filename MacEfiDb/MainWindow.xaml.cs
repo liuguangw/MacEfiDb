@@ -11,7 +11,7 @@ namespace MacEfiDb
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string appPath;
+        private string dataPath;
         private string savePath = null;
         //json配置
         private JObject jsonConfig;
@@ -28,14 +28,15 @@ namespace MacEfiDb
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.appPath = System.AppDomain.CurrentDomain.BaseDirectory;
+            this.dataPath = System.AppDomain.CurrentDomain.BaseDirectory;
             bool debug = true;
             if (debug)
             {
-                DirectoryInfo di = new DirectoryInfo(this.appPath);
-                this.appPath = di.Parent.Parent.FullName;
+                DirectoryInfo di = new DirectoryInfo(this.dataPath);
+                this.dataPath = di.Parent.Parent.FullName;
             }
-            using (StreamReader reader = File.OpenText(this.appPath + @"\config\common.json"))
+			this.dataPath += "\\data";
+            using (StreamReader reader = File.OpenText(this.dataPath + @"\config\common.json"))
             {
                 this.jsonConfig = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
                 this.optionList = (JArray)this.jsonConfig["option_list"];
@@ -127,10 +128,10 @@ namespace MacEfiDb
                 switch (targetType)
                 {
                     case ACTION_COPY_DIR:
-                        this.copyDir(this.appPath + "\\" + (string)fileList[i]["src"], this.savePath + "\\" + (string)fileList[i]["dist"]);
+                        this.copyDir(this.dataPath + "\\" + (string)fileList[i]["src"], this.savePath + "\\" + (string)fileList[i]["dist"]);
                         break;
                     case ACTION_COPY_FILE:
-                        this.copyFile(this.appPath + "\\" + (string)fileList[i]["src"], this.savePath + "\\" + (string)fileList[i]["dist"]);
+                        this.copyFile(this.dataPath + "\\" + (string)fileList[i]["src"], this.savePath + "\\" + (string)fileList[i]["dist"]);
                         break;
                     case ACTION_DELETE_FILE:
                         FileInfo tmpFile = new FileInfo(this.savePath + "\\" + (string)fileList[i]["path"]);
@@ -142,7 +143,7 @@ namespace MacEfiDb
                 }
             }
             //copy配置
-            this.copyFile(this.appPath + @"\config\plist\" + selectedItem.plist+".plist", this.savePath + @"\EFI\CLOVER\config.plist");
+            this.copyFile(this.dataPath + @"\config\plist\" + selectedItem.plist+".plist", this.savePath + @"\EFI\CLOVER\config.plist");
             saveBtn.Content = "保存配置";
             saveBtn.IsEnabled = true;
             System.Windows.MessageBox.Show("保存【"+selectedItem.name+"】配置成功","操作成功",MessageBoxButton.OK,MessageBoxImage.Information,MessageBoxResult.OK);
