@@ -1,0 +1,13 @@
+﻿<Window x:Class="MacEfiDb.Loading"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MacEfiDb"
+        mc:Ignorable="d"
+        Title="加载中" Height="162" Width="275" WindowStyle="None">
+    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image  Height="30" Source="images/tip.jpg"/>
+        <Label Name="tip" FontSize="24" FontWeight="Bold" Foreground="#FF2D2D30">zhz</Label>
+    </WrapPanel>
+</Window>

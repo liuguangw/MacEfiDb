@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MacEfiDb", "MacEfiDb\MacEfiDb.csproj", "{DBBDA6A3-8939-4D78-A7A6-8A76B7B3B2B2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DBBDA6A3-8939-4D78-A7A6-8A76B7B3B2B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBBDA6A3-8939-4D78-A7A6-8A76B7B3B2B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBBDA6A3-8939-4D78-A7A6-8A76B7B3B2B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBBDA6A3-8939-4D78-A7A6-8A76B7B3B2B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {86C987E2-A059-4203-84AC-4316B5C2096E}
+	EndGlobalSection
+EndGlobal
