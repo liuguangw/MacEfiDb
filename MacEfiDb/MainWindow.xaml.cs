@@ -42,37 +42,50 @@ namespace MacEfiDb
             this.loading.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             //
             string basePath = System.AppDomain.CurrentDomain.BaseDirectory;
-#if (DEBUG)
+#if (APP_DEBUG)
 
             DirectoryInfo di = new DirectoryInfo(basePath);
-            basePath = di.Parent.Parent.FullName;
+            basePath = di.Parent.Parent.FullName + @"\";
 #endif
-            this.dataPath = basePath + @"\data";
+            this.dataPath = basePath + @"data";
             //判断data目录是否存在
             DirectoryInfo dataPathInfo = new DirectoryInfo(this.dataPath);
             if (!dataPathInfo.Exists)
             {
-                this.Hide();
-                this.loading.tip.Content = "正在解压文件";
-                this.loading.Show();
-                await Task.Run(new Action(() =>
+                string zipFilePath = this.dataPath + @".zip";
+                FileInfo zipFileInfo = new FileInfo(zipFilePath);
+                if (!zipFileInfo.Exists)
                 {
-                    ZipFile.ExtractToDirectory(this.dataPath + @".zip", this.dataPath);
-                }));
-                this.loading.Hide();
-                this.Show();
-            }
-            using (StreamReader reader = File.OpenText(this.dataPath + @"\config\common.json"))
-            {
-                this.jsonConfig = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
-                this.optionList = (JArray)this.jsonConfig["option_list"];
-                this.optionFiles = (JObject)this.jsonConfig["option_files"];
-                int i = 0;
-                for (i = 0; i < optionList.Count; i++)
-                {
-                    configSelector.Items.Add(new ConfigItem((string)optionList[i]["name"], (string)optionList[i]["file"], (string)optionList[i]["plist"]));
+                    System.Windows.MessageBox.Show("资源包:" + zipFilePath + "不存在", "出错了", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                configSelector.SelectedIndex = 0;
+                else
+                {
+                    this.Hide();
+                    this.loading.tip.Content = "正在解压文件";
+                    this.loading.Show();
+                    await Task.Run(new Action(() =>
+                    {
+                        ZipFile.ExtractToDirectory(zipFilePath, this.dataPath);
+                    }));
+                    this.loading.Hide();
+                    this.Show();
+                    dataPathInfo.Refresh();
+                }
+            }
+            if (dataPathInfo.Exists)
+            {
+                using (StreamReader reader = File.OpenText(this.dataPath + @"\config\common.json"))
+                {
+                    this.jsonConfig = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+                    this.optionList = (JArray)this.jsonConfig["option_list"];
+                    this.optionFiles = (JObject)this.jsonConfig["option_files"];
+                    int i = 0;
+                    for (i = 0; i < optionList.Count; i++)
+                    {
+                        configSelector.Items.Add(new ConfigItem((string)optionList[i]["name"], (string)optionList[i]["file"], (string)optionList[i]["plist"]));
+                    }
+                    configSelector.SelectedIndex = 0;
+                }
             }
         }
 
@@ -129,6 +142,11 @@ namespace MacEfiDb
 
         private async void saveConfig(object sender, RoutedEventArgs e)
         {
+            if (configSelector.SelectedIndex == -1)
+            {
+                System.Windows.MessageBox.Show("请选择配置", "", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             if (this.savePath == null)
             {
                 System.Windows.MessageBox.Show("请选择保存目录", "", MessageBoxButton.OK, MessageBoxImage.Warning);
