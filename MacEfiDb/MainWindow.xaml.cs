@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿//定义是否为代码调试模式
+#define APP_DEBUG 
+//
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.IO.Compression;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -27,7 +29,6 @@ namespace MacEfiDb
         public const int ACTION_COPY_DIR = 0;
         public const int ACTION_COPY_FILE = 1;
         public const int ACTION_DELETE_FILE = 2;
-        public const bool APP_DEBUG = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -41,11 +42,11 @@ namespace MacEfiDb
             this.loading.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             //
             string basePath = System.AppDomain.CurrentDomain.BaseDirectory;
-            if (APP_DEBUG)
-            {
-                DirectoryInfo di = new DirectoryInfo(basePath);
-                basePath = di.Parent.Parent.FullName;
-            }
+#if (DEBUG)
+
+            DirectoryInfo di = new DirectoryInfo(basePath);
+            basePath = di.Parent.Parent.FullName;
+#endif
             this.dataPath = basePath + @"\data";
             //判断data目录是否存在
             DirectoryInfo dataPathInfo = new DirectoryInfo(this.dataPath);
