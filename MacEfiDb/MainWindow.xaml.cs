@@ -205,7 +205,11 @@ namespace MacEfiDb
 
         private void AppShutdown(object sender, RoutedEventArgs e)
         {
-            System.Windows.Application.Current.Shutdown();
+            MessageBoxResult a = System.Windows.MessageBox.Show("确定要退出本程序吗?", "提示", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            if (a == MessageBoxResult.Yes)
+            {
+                System.Windows.Application.Current.Shutdown();
+            }
         }
 
         private void ShowAbout(object sender, RoutedEventArgs e)
