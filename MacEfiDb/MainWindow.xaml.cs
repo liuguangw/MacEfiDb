@@ -202,6 +202,24 @@ namespace MacEfiDb
             this.loading.Hide();
             System.Windows.MessageBox.Show("保存【" + selectedItem.name + "】配置成功", "操作成功", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
+
+        private void AppShutdown(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+        private void ShowAbout(object sender, RoutedEventArgs e)
+        {
+            AboutApp about = new AboutApp();
+            about.Owner = this;
+            about.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            about.ShowDialog();
+        }
+
+        private void UpdateData(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("待完成");
+        }
     }
 
     public class ConfigItem
