@@ -20,7 +20,7 @@ namespace MacEfiDb
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Loading loading;
+        private Loading loadingDialog;
         //
         private string dataPath;
         private string savePath = null;
@@ -37,12 +37,57 @@ namespace MacEfiDb
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>获取资源压缩包保存路径</returns>
+        private string getZipFilePath()
+        {
+            return this.dataPath + @".zip";
+        }
+
+        //创建并显示加载框
+        private void showLoadingDialog(string str)
+        {
+#pragma warning disable
+            Task.Run(new Action(() =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.loadingDialog = new Loading();
+                    this.loadingDialog.Owner = this;
+                    this.loadingDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    this.loadingDialog.tip.Content = str;
+                    this.loadingDialog.ShowDialog();
+                });
+            }));
+#pragma warning restore
+        }
+
+        //更新加载框中的文字
+        private void updateLoadingDialog(string str)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.loadingDialog.tip.Content = str;
+            });
+        }
+
+        //隐藏加载框
+        private void hideLoadingDialog()
+        {
+            if (this.loadingDialog != null)
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.loadingDialog.Close();
+                    this.loadingDialog = null;
+                });
+            }
+        }
+
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //loading tip
-            this.loading = new Loading();
-            this.loading.Owner = this;
-            this.loading.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             //
             string basePath = System.AppDomain.CurrentDomain.BaseDirectory;
 #if (APP_DEBUG)
@@ -55,7 +100,7 @@ namespace MacEfiDb
             DirectoryInfo dataPathInfo = new DirectoryInfo(this.dataPath);
             if (!dataPathInfo.Exists)
             {
-                string zipFilePath = this.dataPath + @".zip";
+                string zipFilePath = this.getZipFilePath();
                 FileInfo zipFileInfo = new FileInfo(zipFilePath);
                 if (!zipFileInfo.Exists)
                 {
@@ -63,22 +108,12 @@ namespace MacEfiDb
                 }
                 else
                 {
-#pragma warning disable
-                    //防止代码阻塞
-                    Task.Run(new Action(() =>
-                    {
-                        this.Dispatcher.Invoke(() =>
-                        {
-                            this.loading.tip.Content = "正在解压文件";
-                            this.loading.ShowDialog();
-                        });
-                    }));
-#pragma warning restore
+                    this.showLoadingDialog("正在解压文件");
                     await Task.Run(new Action(() =>
                     {
                         ZipFile.ExtractToDirectory(zipFilePath, this.dataPath);
                     }));
-                    this.loading.Hide();
+                    this.hideLoadingDialog();
                     dataPathInfo.Refresh();
                 }
             }
@@ -176,17 +211,7 @@ namespace MacEfiDb
                     return;
                 }
             }
-#pragma warning disable
-            //显示模态框
-            Task.Run(new Action(() =>
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    this.loading.tip.Content = "正在保存,请稍后";
-                    this.loading.ShowDialog();
-                });
-            }));
-#pragma warning restore
+            this.showLoadingDialog("正在保存,请稍后");
             ConfigItem selectedItem = configSelector.SelectedItem as ConfigItem;
             int i, targetType;
             //copy文件
@@ -216,7 +241,7 @@ namespace MacEfiDb
                 //copy配置
                 this.copyFile(this.dataPath + @"\config\plist\" + selectedItem.plist + ".plist", this.savePath + @"\EFI\CLOVER\config.plist");
             }));
-            this.loading.Hide();
+            this.hideLoadingDialog();
             System.Windows.MessageBox.Show("保存【" + selectedItem.name + "】配置成功", "操作成功", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK);
         }
 
@@ -238,7 +263,7 @@ namespace MacEfiDb
         }
 
         //字节大小转文件大小提示
-        private string getFileSize(ulong fileBytes)
+        private string getFileSize(decimal fileBytes)
         {
             if (fileBytes < 1024)
             {
@@ -246,11 +271,11 @@ namespace MacEfiDb
             }
             else if (fileBytes >= 1024 && fileBytes < (1024 * 1024))
             {
-                return ((decimal)fileBytes / 1024).ToString("F2") + "KB";
+                return (fileBytes / 1024).ToString("F2") + "KB";
             }
             else if (fileBytes >= (1024 * 1024) && fileBytes < (1024 * 1024 * 1024))
             {
-                return ((decimal)fileBytes / 1024 / 1024).ToString("F2") + "MB";
+                return (fileBytes / 1024 / 1024).ToString("F2") + "MB";
             }
             return "unknown";
         }
@@ -264,7 +289,7 @@ namespace MacEfiDb
         {
             try
             {
-                FileStream file = new FileStream(fileName, FileMode.Open,FileAccess.Read);
+                FileStream file = new FileStream(fileName, FileMode.Open, FileAccess.Read);
                 System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
                 byte[] retVal = md5.ComputeHash(file);
                 file.Close();
@@ -282,149 +307,190 @@ namespace MacEfiDb
             }
         }
 
+        private string getRemoteFileContent(string url)
+        {
+
+            HttpWebRequest request = null;
+            HttpWebResponse response = null;
+            Stream stream = null;
+            string fileContent = "";
+            try
+            {
+                request = WebRequest.Create(url) as HttpWebRequest;
+                response = request.GetResponse() as HttpWebResponse;
+                stream = response.GetResponseStream();
+                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                {
+                    fileContent = reader.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+                if (response != null)
+                {
+                    response.Close();
+                }
+            }
+            return fileContent;
+        }
+
+        /// <summary>
+        /// 下载文件
+        /// </summary>
+        /// <param name="url">文件的URL地址</param>
+        /// <param name="savePath">文件的保存路径</param>
+        /// <param name="onFileSizeChange">当文件大小发生改变时执行</param>
+        /// <param name="onDownloadSuccess">当文件下载成功时执行</param>
+        private void downloadFile(string url, string savePath, Action<ulong> onFileSizeChange, Action onDownloadSuccess)
+        {
+            HttpWebRequest request = null;
+            HttpWebResponse response = null;
+            Stream stream = null;
+            FileStream fs = null;
+            try
+            {
+                //如果文件存在则删除文件
+                FileInfo savePathInfo = new FileInfo(savePath);
+                if (savePathInfo.Exists)
+                {
+                    savePathInfo.Delete();
+                }
+                //
+                request = WebRequest.Create(url) as HttpWebRequest;
+                response = request.GetResponse() as HttpWebResponse;
+                stream = response.GetResponseStream();
+                //写入文件
+                fs = new FileStream(savePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                byte[] bArr = new byte[1024];
+                int size = stream.Read(bArr, 0, bArr.Length);
+                ulong totalSize = 0;
+                while (size > 0)
+                {
+                    fs.Write(bArr, 0, size);
+                    //更新下载数据的界面
+                    totalSize += (ulong)size;
+                    onFileSizeChange(totalSize);
+                    //
+                    size = stream.Read(bArr, 0, bArr.Length);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                if (stream != null)
+                {
+                    stream.Close();
+                }
+                if (response != null)
+                {
+                    response.Close();
+                }
+                if (fs != null)
+                {
+                    fs.Close();
+                }
+            }
+            //文件下载完成
+            onDownloadSuccess();
+        }
+
         private async void UpdateData(object sender, RoutedEventArgs e)
         {
             string url = @"https://github.com/liuguangw/MacEfiDb/raw/master/MacEfiDb/data.zip";
-            string dataMd5Url = @"https://github.com/liuguangw/MacEfiDb/raw/master/README.md";
-            string tmpFilePath = this.dataPath + @".zip.tmp";
-            FileInfo tmpFileInfo = new FileInfo(tmpFilePath);
-            if (tmpFileInfo.Exists)
-            {
-                tmpFileInfo.Delete();
-            }
-#pragma warning disable
-            //显示模态框
-            Task.Run(new Action(() =>
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    this.loading.tip.Content = "正在获取文件";
-                    this.loading.ShowDialog();
-                });
-            }));
-#pragma warning restore
+            string dataMd5Url = @"https://github.com/liuguangw/MacEfiDb/raw/master/data_md5.txt";
+            string zipFilePath = this.getZipFilePath();
+            string tmpFilePath = zipFilePath + @".tmp";
+            this.showLoadingDialog("正在获取文件");
             await Task.Run(new Action(() =>
             {
                 //计算本地文件的MD5值
-                string localDataMd5 = this.GetMD5HashFromFile(this.dataPath + @".zip");
-                string remoteDataMd5;
-                //
-                HttpWebRequest request = null;
-                HttpWebResponse response = null;
-                Stream stream = null;
-                FileStream fs = null;
+                string localDataMd5 = this.GetMD5HashFromFile(zipFilePath);
+                this.updateLoadingDialog("正在获取远程文件信息");
+                string remoteDataMd5 = "";
                 try
                 {
-                    //下载校验文件
-                    request = WebRequest.Create(dataMd5Url) as HttpWebRequest;
-                    response = request.GetResponse() as HttpWebResponse;
-                    stream = response.GetResponseStream();
+                    remoteDataMd5 = this.getRemoteFileContent(dataMd5Url);
+                }
+                catch (Exception ex)
+                {
+                    this.hideLoadingDialog();
                     this.Dispatcher.Invoke(() =>
                     {
-                        this.loading.tip.Content = "正在获取远程文件信息";
+                        System.Windows.MessageBox.Show(ex.Message,"获取校验文件失败",MessageBoxButton.OK,MessageBoxImage.Error);
                     });
-                    using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                }
+                if (remoteDataMd5 == "")
+                {
+                    //获取md5文件失败
+                }
+                else if (localDataMd5 == remoteDataMd5)
+                {
+                    //文件md5值一致
+                    this.hideLoadingDialog();
+                    this.Dispatcher.Invoke(() =>
                     {
-                        remoteDataMd5 = reader.ReadToEnd();
-                    }
-                    //MD5相同
-                    if (localDataMd5 == remoteDataMd5)
+                        System.Windows.MessageBox.Show("本地data文件已经是最新版本");
+                    });
+                }
+                else
+                {
+                    //执行更新程序
+                    this.updateLoadingDialog("正在下载更新");
+                    //start downloadFile
+                    try
                     {
-                        this.Dispatcher.Invoke(() =>
+                        this.downloadFile(url, tmpFilePath, (ulong totalSize) =>
                         {
-                            this.loading.Hide();
-                            System.Windows.MessageBox.Show("本地data文件已经是最新版本");
-                        });
-                    }
-                    else
-                    //更新远程文件
-                    {
-                        request = WebRequest.Create(url) as HttpWebRequest;
-                        response = request.GetResponse() as HttpWebResponse;
-                        stream = response.GetResponseStream();
-                        this.Dispatcher.Invoke(() =>
+
+                            this.updateLoadingDialog("已下载数据:" + this.getFileSize(totalSize));
+                        }, () =>
                         {
-                            this.loading.tip.Content = "正在下载更新";
-                        });
-                        //写入文件
-                        fs = new FileStream(tmpFilePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
-                        byte[] bArr = new byte[1024];
-                        int size = stream.Read(bArr, 0, bArr.Length);
-                        ulong totalSize = 0;
-                        while (size > 0)
-                        {
-                            fs.Write(bArr, 0, size);
-                            //更新下载数据的界面
-                            totalSize += (ulong)size;
-                            this.Dispatcher.Invoke(() =>
+                            //下载完成后校验MD5
+                            string downloadMd5 = this.GetMD5HashFromFile(tmpFilePath);
+                            if (downloadMd5 != remoteDataMd5)
                             {
-                                this.loading.tip.Content = "已下载数据:" + this.getFileSize(totalSize);
-                            });
-                            //
-                            size = stream.Read(bArr, 0, bArr.Length);
-                        }
-                        //校验MD5
-                        string downloadMd5 = this.GetMD5HashFromFile(tmpFilePath);
-                        if (downloadMd5 != remoteDataMd5)
-                        {
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                this.loading.Hide();
-                                System.Windows.MessageBox.Show("下载的临时文件校验失败\r\n远程MD5:" + remoteDataMd5 + "\r\n临时文件md5:" + downloadMd5, "MD5校验失败", MessageBoxButton.OK, MessageBoxImage.Information);
-                            });
-                        }
-                        else
-                        {
-                            //删除本地data目录、zip文件
-                            this.Dispatcher.Invoke(() =>
-                            {
-                                this.loading.tip.Content = "正在清理本地数据";
-                            });
-                            DirectoryInfo dataPathInfo = new DirectoryInfo(this.dataPath);
-                            if (dataPathInfo.Exists)
-                            {
-                                dataPathInfo.Delete(true);
+                                this.hideLoadingDialog();
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    System.Windows.MessageBox.Show("下载的临时文件校验失败\r\n远程MD5:" + remoteDataMd5 + "\r\n临时文件MD5:" + downloadMd5, "MD5校验失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                });
                             }
-                            //copy临时文件到data.zip
-                            tmpFileInfo.CopyTo(this.dataPath + @".zip", true);
-                            tmpFileInfo.Delete();
-                            this.Dispatcher.Invoke(() =>
-                        {
-                            this.loading.Hide();
-                            string result = "资源文件更新成功";
-                            System.Windows.MessageBox.Show(result, "", MessageBoxButton.OK, MessageBoxImage.Information);
-                            Process.Start(Process.GetCurrentProcess().MainModule.FileName);
-                            System.Windows.MessageBox.Show(Process.GetCurrentProcess().MainModule.FileName, "", MessageBoxButton.OK, MessageBoxImage.Information);
-                            System.Windows.Application.Current.Shutdown();
+                            else
+                            {
+                                //重启应用程序
+                                this.hideLoadingDialog();
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    System.Windows.MessageBox.Show("资源文件更新成功", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+                                    System.Windows.MessageBox.Show(Process.GetCurrentProcess().MainModule.FileName, "", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    System.Windows.Application.Current.Shutdown();
+                                });
+                            }
                         });
-                        }
-                        //end MD5校验
-                    }//end更新远程文件
-                }
-                catch (Exception e1)
-                {
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        this.loading.Hide();
-                        System.Windows.MessageBox.Show(e1.Message, "出错了", MessageBoxButton.OK, MessageBoxImage.Error);
-                    });
-                }
-                finally
-                {
-                    //资源回收
-                    if (fs != null)
-                    {
-                        fs.Close();
                     }
-                    if (stream != null)
+                    catch (Exception e1)
                     {
-                        stream.Close();
+                        this.hideLoadingDialog();
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            System.Windows.MessageBox.Show(e1.Message, "出错了", MessageBoxButton.OK, MessageBoxImage.Error);
+                        });
                     }
-                    if (response != null)
-                    {
-                        response.Close();
-                    }
-                }
+                    //end downloadFile
+                }//end else
+
             }));
         }
     }
