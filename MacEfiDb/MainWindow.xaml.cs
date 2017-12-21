@@ -427,7 +427,7 @@ namespace MacEfiDb
                     this.hideLoadingDialog();
                     this.Dispatcher.Invoke(() =>
                     {
-                        System.Windows.MessageBox.Show(ex.Message,"获取校验文件失败",MessageBoxButton.OK,MessageBoxImage.Error);
+                        System.Windows.MessageBox.Show(ex.Message, "获取校验文件失败", MessageBoxButton.OK, MessageBoxImage.Error);
                     });
                 }
                 if (remoteDataMd5 == "")
@@ -468,13 +468,23 @@ namespace MacEfiDb
                             }
                             else
                             {
+                                //copy文件
+                                this.copyFile(tmpFilePath, zipFilePath);
+                                //删除临时文件
+                                FileInfo tmpFileInfo = new FileInfo(tmpFilePath);
+                                tmpFileInfo.Delete();
+                                //删除data目录
+                                DirectoryInfo dataPathInfo = new DirectoryInfo(this.dataPath);
+                                if (dataPathInfo.Exists)
+                                {
+                                    dataPathInfo.Delete(true);
+                                }
                                 //重启应用程序
                                 this.hideLoadingDialog();
                                 this.Dispatcher.Invoke(() =>
                                 {
                                     System.Windows.MessageBox.Show("资源文件更新成功", "", MessageBoxButton.OK, MessageBoxImage.Information);
                                     Process.Start(Process.GetCurrentProcess().MainModule.FileName);
-                                    System.Windows.MessageBox.Show(Process.GetCurrentProcess().MainModule.FileName, "", MessageBoxButton.OK, MessageBoxImage.Information);
                                     System.Windows.Application.Current.Shutdown();
                                 });
                             }

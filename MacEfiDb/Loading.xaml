@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MacEfiDb"
         mc:Ignorable="d"
-        Title="加载中" Height="175" Width="300" ResizeMode="NoResize" WindowStyle="None" Background="#FFF9F2F2">
+        Title="加载中" Height="175" Width="300" ResizeMode="NoResize" WindowStyle="None" Background="#FFF9F2F2" ShowInTaskbar="False">
     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <Image  Height="30" Source="images/tip.jpg"/>
         <Label Name="tip" FontSize="24" FontWeight="Bold" Foreground="#FF2D2D30">zhz</Label>

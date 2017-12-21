@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MacEfiDb"
         mc:Ignorable="d"
-        Title="关于本程序" Height="179.32" Width="362.89" ResizeMode="NoResize">
+        Title="关于本程序" Height="179.32" Width="362.89" ResizeMode="NoResize" ShowInTaskbar="False">
     <StackPanel>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" Padding="5">
 			流光的配置工具
