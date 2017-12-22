@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -130,7 +131,32 @@ namespace MacEfiDb
                         configSelector.Items.Add(new ConfigItem((string)optionList[i]["name"], (string)optionList[i]["file"], (string)optionList[i]["plist"]));
                     }
                     configSelector.SelectedIndex = 0;
+                    this.loadCloverInfo(new FileInfo(this.dataPath + @"\org_loader\EFI\CLOVER\CLOVERX64.efi"));
                 }
+            }
+        }
+
+        private async void loadCloverInfo(FileInfo cloverFileInfo)
+        {
+            if (cloverFileInfo.Exists)
+            {
+                await Task.Run(new Action(() =>
+                {
+                    using (FileStream stream = new FileStream(cloverFileInfo.FullName, FileMode.Open, FileAccess.Read))
+                    {
+                        using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                        {
+                            string fileContent = reader.ReadToEnd();
+                            Match mt = Regex.Match(fileContent, @"Clover\s+revision\:\s+(\d+)");
+                            this.Dispatcher.Invoke(() =>
+                            {
+                                if (mt.Success) {
+                                    this.Title += ("(clover "+mt.Groups[1].Value+")");
+                                }
+                            });
+                        }
+                    }
+                }));
             }
         }
 
