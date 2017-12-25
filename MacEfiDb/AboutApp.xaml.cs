@@ -1,11 +1,11 @@
-﻿using System.Windows;
+﻿using MahApps.Metro.Controls;
 
 namespace MacEfiDb
 {
     /// <summary>
     /// AboutApp.xaml 的交互逻辑
     /// </summary>
-    public partial class AboutApp : Window
+    public partial class AboutApp : MetroWindow
     {
         public AboutApp()
         {

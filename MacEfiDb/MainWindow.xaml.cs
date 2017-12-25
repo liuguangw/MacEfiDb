@@ -1,6 +1,7 @@
 ﻿//定义是否为代码调试模式
 #define APP_DEBUG 
 //
+using MahApps.Metro.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -19,7 +20,7 @@ namespace MacEfiDb
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         private Loading loadingDialog;
         //
@@ -57,8 +58,7 @@ namespace MacEfiDb
                 {
                     this.loadingDialog = new Loading();
                     this.loadingDialog.Owner = this;
-                    this.loadingDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                    this.loadingDialog.tip.Content = str;
+                    this.loadingDialog.tip.Text = str;
                     this.loadingDialog.ShowDialog();
                 });
             }));
@@ -70,7 +70,7 @@ namespace MacEfiDb
         {
             this.Dispatcher.Invoke(() =>
             {
-                this.loadingDialog.tip.Content = str;
+                this.loadingDialog.tip.Text = str;
             });
         }
 
