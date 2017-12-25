@@ -61,10 +61,10 @@
             </ComboBox>
             <Label Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">选择保存目录</Label>
             <WrapPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBox MinWidth="160" Padding="5" IsReadOnly="True" Name="fileInput"/>
+                <TextBox Width="170" Padding="5" IsReadOnly="True" Name="fileInput"/>
                 <Button Content="选择目录" Click="chooseFolder"/>
             </WrapPanel>
-            <Button Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" Click="saveConfig" Name="saveBtn">保存配置</Button>
+            <Button Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" Click="saveConfig" Name="saveBtn" FontSize="16">保存配置</Button>
 
         </Grid>
         <!--主体部分结束-->
