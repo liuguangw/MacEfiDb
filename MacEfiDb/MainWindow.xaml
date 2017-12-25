@@ -4,7 +4,8 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       Title="流光的黑苹果配置生成工具"
                       Height="350"
-                      Width="525" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" ResizeMode="CanMinimize" Icon="favicon.ico">
+                      Width="525" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" ResizeMode="CanMinimize" Icon="favicon.ico" BorderBrush="{DynamicResource AccentColorBrush}"
+                      BorderThickness="1">
     <DockPanel>
         <!--菜单开始-->
         <Menu DockPanel.Dock="Top">
