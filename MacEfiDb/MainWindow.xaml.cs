@@ -148,12 +148,13 @@ namespace MacEfiDb
                         {
                             string fileContent = reader.ReadToEnd();
                             Match mt = Regex.Match(fileContent, @"Clover\s+revision\:\s+(\d+)");
-                            this.Dispatcher.Invoke(() =>
+                            if (mt.Success)
                             {
-                                if (mt.Success) {
-                                    this.Title += ("(clover "+mt.Groups[1].Value+")");
-                                }
-                            });
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    this.Title += ("(clover " + mt.Groups[1].Value + ")");
+                                });
+                            }
                         }
                     }
                 }));
